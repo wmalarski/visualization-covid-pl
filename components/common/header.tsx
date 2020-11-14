@@ -9,6 +9,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import { makeStyles } from "@material-ui/styles";
 import Link from "next/link";
 import React, { PropsWithChildren } from "react";
+import useMetadata from "../../utils/common/useMetadata";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -37,6 +38,8 @@ export default function Header(
   const { siteTitle = "Covid Visualization", children } = props;
   const classes = useStyles();
 
+  const { githubLink } = useMetadata();
+
   return (
     <>
       <AppBar className={classes.appBar} component="header" position="fixed">
@@ -50,7 +53,7 @@ export default function Header(
           </Typography>
           {children}
           <div className={classes.grow} />
-          <IconButton aria-label="github">
+          <IconButton aria-label="github" target="_blank" href={githubLink}>
             <GitHubIcon />
           </IconButton>
         </Toolbar>
