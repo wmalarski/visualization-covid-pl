@@ -2,7 +2,7 @@ import get from "lodash/get";
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 import middleware from "../../middleware/database";
-import { SpreadsheetData } from "../../utils/loader/types";
+import { SpreadsheetData } from "../../utils/common/types";
 
 const handler = nextConnect();
 

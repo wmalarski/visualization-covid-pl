@@ -1,1 +1,3 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+Visualization Covid Statistics
+
+Data collected and maintained by [Michał Rogalski](https://twitter.com/micalrg)

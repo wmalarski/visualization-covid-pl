@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { SpreadsheetData } from "../loader/types";
+import { SpreadsheetData } from "./types";
 
 export interface MetadataContextValue {
   githubLink: string;
