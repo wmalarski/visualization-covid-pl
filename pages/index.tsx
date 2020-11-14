@@ -24,7 +24,7 @@ export default function Home(props: HomeProps): JSX.Element {
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
-      metadata: getMetadata(),
+      metadata: await getMetadata(),
     },
   };
 };
