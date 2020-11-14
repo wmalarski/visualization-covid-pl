@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UpdateViewArgument, WorkspaceState, WorkspaceView } from "./types";
+import { VisualizationTypes } from "../visualization/types";
+import {
+  UpdateViewArgument,
+  WorkspaceState,
+  WorkspaceViewProps,
+} from "./types";
 
 const initialState: WorkspaceState = {
   views: [
@@ -10,9 +15,14 @@ const initialState: WorkspaceState = {
         w: 5,
         x: 0,
         y: 0,
+        static: true,
       },
-      props: {
+      config: {
         title: "Summary",
+        attributes: {
+          type: VisualizationTypes.SUMMARY_CHART,
+          cumulative: true,
+        },
       },
     },
     {
@@ -22,9 +32,14 @@ const initialState: WorkspaceState = {
         w: 5,
         x: 5,
         y: 0,
+        static: true,
       },
-      props: {
+      config: {
         title: "Deaths",
+        attributes: {
+          type: VisualizationTypes.SUMMARY_CHART,
+          cumulative: false,
+        },
       },
     },
     {
@@ -34,9 +49,14 @@ const initialState: WorkspaceState = {
         w: 5,
         x: 5,
         y: 0,
+        static: true,
       },
-      props: {
+      config: {
         title: "Regions",
+        attributes: {
+          type: VisualizationTypes.REGION_CHART,
+          cumulative: false,
+        },
       },
     },
   ],
@@ -48,10 +68,29 @@ const workspaceReducer = createSlice({
   reducers: {
     addView(
       state: WorkspaceState,
-      action: PayloadAction<WorkspaceView>,
+      action: PayloadAction<WorkspaceViewProps>,
     ): WorkspaceState {
       const { payload } = action;
       return { ...state, views: [...state.views, payload] };
+    },
+    updateView(
+      state: WorkspaceState,
+      action: PayloadAction<UpdateViewArgument>,
+    ): WorkspaceState {
+      const { payload } = action;
+      const { key, layout = {}, config = {} } = payload;
+      return {
+        ...state,
+        views: state.views.map(view =>
+          view.layout.i !== key
+            ? view
+            : {
+                ...view,
+                layout: { ...view.layout, ...layout },
+                config: { ...view.config, ...config },
+              },
+        ),
+      };
     },
     deleteView(
       state: WorkspaceState,
@@ -71,12 +110,13 @@ const workspaceReducer = createSlice({
       return {
         ...state,
         views: state.views.map(view => {
-          const newView = views.find(a => a.viewId === view.layout.i);
+          const newView = views.find(v => v.key === view.layout.i);
           if (!newView) return view;
+          const { layout = {}, config = {} } = newView;
           return {
             ...view,
-            layout: { ...view.layout, ...(newView.layout ?? {}) },
-            props: { ...view.props, ...(newView.props ?? {}) },
+            layout: { ...view.layout, ...layout },
+            config: { ...view.config, ...config },
           };
         }),
       };
@@ -84,6 +124,11 @@ const workspaceReducer = createSlice({
   },
 });
 
-export const { addView, deleteView, updateViews } = workspaceReducer.actions;
+export const {
+  addView,
+  updateView,
+  deleteView,
+  updateViews,
+} = workspaceReducer.actions;
 
 export default workspaceReducer.reducer;

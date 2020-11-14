@@ -1,5 +1,7 @@
-import { WorkspaceState, WorkspaceView } from "./types";
+import { WorkspaceState, WorkspaceViewProps } from "./types";
 
-export function workspaceViewsSelector(state: WorkspaceState): WorkspaceView[] {
+export function workspaceViewsSelector(
+  state: WorkspaceState,
+): WorkspaceViewProps[] {
   return state.views;
 }

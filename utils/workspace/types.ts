@@ -1,20 +1,23 @@
 import GridLayout from "react-grid-layout";
+import { VisualizationAttributes } from "../visualization/types";
 
-export interface WorkspaceViewProps {
+export interface WorkspaceViewConfig {
   title: string;
+  subheader?: string;
+  attributes: VisualizationAttributes;
 }
 
-export interface WorkspaceView {
+export interface WorkspaceViewProps {
   layout: GridLayout.Layout;
-  props: WorkspaceViewProps;
+  config: WorkspaceViewConfig;
 }
 
 export interface WorkspaceState {
-  views: WorkspaceView[];
+  views: WorkspaceViewProps[];
 }
 
 export interface UpdateViewArgument {
-  viewId: string;
+  key: string;
   layout?: Partial<GridLayout.Layout>;
-  props?: Partial<WorkspaceViewProps>;
+  config?: Partial<WorkspaceViewConfig>;
 }
