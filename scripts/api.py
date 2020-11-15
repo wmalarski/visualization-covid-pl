@@ -1,9 +1,16 @@
+import datetime
+import json
 from pathlib import Path
+from pprint import pprint
 from typing import Dict
 
 import pandas as pd
+from pymongo import MongoClient
+from dotenv import load_dotenv, find_dotenv
 
 from .utils import extract_region_rows, extract_columns
+
+load_dotenv(find_dotenv(".env.local"))
 
 
 def get_region_summary_df(xls: pd.ExcelFile) -> pd.DataFrame:
@@ -63,15 +70,25 @@ def get_region_pandemic_df(xls: pd.ExcelFile) -> pd.DataFrame:
     return pd.concat(region_dfs).reset_index().rename(columns={"level_0": "region", "Unnamed: 0": "date"})
 
 
-def export_to_database(excel_path: Path) -> None:
+def get_population_df(xls: pd.ExcelFile) -> pd.DataFrame:
+    population_original = pd.read_excel(xls, "Aktualna sytuacja w Polsce")
+    regions = [region.lower() for region in population_original.iloc[1:17, 1]]
+    population = population_original.iloc[1:17, 12].astype(int)
+    return pd.DataFrame({"region": regions, "population": population})
+
+
+def export_to_database(excel_path: Path, client: MongoClient) -> None:
     xls = pd.ExcelFile(excel_path)
-    summary_df = get_region_summary_df(xls)
-    tests_df = get_tests_df(xls)
-    region_tests_df = get_region_tests_df(xls)
-    pandemic_df = get_pandemic_df(xls)
-    region_pandemic_df = get_region_pandemic_df(xls)
 
-
-
-
-
+    dict_data = {
+        "date": datetime.datetime.utcnow(),
+        "summary": get_region_summary_df(xls).to_dict("records"),
+        "tests": get_tests_df(xls).to_dict("records"),
+        "region_tests": get_region_tests_df(xls).to_dict("records"),
+        "pandemic": get_pandemic_df(xls).to_dict("records"),
+        "region_pandemic": get_region_pandemic_df(xls).to_dict("records"),
+        "population": get_population_df(xls).to_dict("records"),
+    }
+    # print(json.dumps(dict_data))
+    reports_collection = client["covid-pl-db"].reports
+    reports_collection.insert_one(dict_data)
