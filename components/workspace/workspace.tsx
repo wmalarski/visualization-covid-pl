@@ -4,9 +4,11 @@ import RGL, { WidthProvider } from "react-grid-layout";
 import { useSelector } from "react-redux";
 import "../../node_modules/react-grid-layout/css/styles.css";
 import "../../node_modules/react-resizable/css/styles.css";
+import useMetadata from "../../utils/common/useMetadata";
 import { useRootDispatch } from "../../utils/store";
 import { workspaceViewsSelector } from "../../utils/workspace/selectors";
 import { updateViews } from "../../utils/workspace/slice";
+import Layout from "../common/layout";
 import WorkspaceView from "./workspaceView";
 
 const ReactGridLayout = WidthProvider(RGL);
@@ -16,16 +18,22 @@ export default function Workspace(): JSX.Element {
   const views = useSelector(workspaceViewsSelector);
   const layout = useMemo(() => views.map(view => view.layout), [views]);
 
+  const metadata = useMetadata();
+  console.log(metadata.spreadsheetData);
+
   return (
-    <div>
+    <Layout
+      header={
+        <Button
+          onClick={() => {
+            // dispatch(increment());
+          }}
+        >
+          Click
+        </Button>
+      }
+    >
       <p>Workspace</p>
-      <Button
-        onClick={() => {
-          // dispatch(increment());
-        }}
-      >
-        Click
-      </Button>
       <ReactGridLayout
         className="layout"
         layout={layout}
@@ -43,6 +51,6 @@ export default function Workspace(): JSX.Element {
           </div>
         ))}
       </ReactGridLayout>
-    </div>
+    </Layout>
   );
 }

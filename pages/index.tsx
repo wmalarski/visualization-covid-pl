@@ -1,7 +1,6 @@
 import { GetStaticProps } from "next";
 import React from "react";
 import { Provider } from "react-redux";
-import Layout from "../components/common/layout";
 import MetadataProvider from "../components/common/metadataProvider";
 import Workspace from "../components/workspace/workspace";
 import getMetadata from "../utils/common/getMetadata";
@@ -17,9 +16,7 @@ export default function Home(props: HomeProps): JSX.Element {
   return (
     <MetadataProvider {...metadata}>
       <Provider store={store}>
-        <Layout>
-          <Workspace />
-        </Layout>
+        <Workspace />
       </Provider>
     </MetadataProvider>
   );

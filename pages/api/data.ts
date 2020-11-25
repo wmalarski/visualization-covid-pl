@@ -10,7 +10,9 @@ handler.use(middleware);
 
 handler.get(
   async (req: NextApiRequest, res: NextApiResponse<SpreadsheetData>) => {
-    const doc = await get(req, "db").collection("reports").findOne();
+    const doc = await get(req, "db")
+      .collection("reports")
+      .findOne({}, { sort: { date: -1 } });
     res.json(doc);
   },
 );

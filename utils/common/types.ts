@@ -1,9 +1,33 @@
-export interface SummaryRecord {
+export interface RegionCasesRecord {
   date: string;
   region: string;
-  cases: number | null;
-  deaths: number | null;
-  recovers: number | null;
+  population: number;
+  cases: number;
+  sumCases: number;
+  deaths: number;
+  sumDeaths: number;
+  recovers: number;
+  sumRecovers: number;
+  activeCases: number;
+  activeChange: number;
+  increaseCases: number;
+  increaseActive: number;
+  casesPerMil: number;
+}
+
+export interface CasesRecord {
+  date: string;
+  cases: number;
+  sumCases: number;
+  deaths: number;
+  sumDeaths: number;
+  recovers: number;
+  sumRecovers: number;
+  activeCases: number;
+  activeChange: number;
+  increaseCases: number;
+  increaseActive: number;
+  casesPerMil: number;
 }
 
 export interface TestsRecord {
@@ -15,9 +39,10 @@ export interface TestsRecord {
   sumNegativeAgainPositive: number | null;
 }
 
-export interface TestsRegionRecord {
+export interface RegionTestsRecord {
   date: string;
   region: string;
+  population: number;
   sumTests: number | null;
   sumPositive: number | null;
 }
@@ -32,9 +57,10 @@ export interface PandemicRecord {
   inspection: number | null;
 }
 
-export interface PandemicRegionRecord {
+export interface RegionPandemicRecord {
   date: string;
   region: string;
+  population: number;
   hospitalized: number | null;
   bedsCount: number | null;
   respiratorsUsed: number | null;
@@ -49,9 +75,11 @@ export interface PopulationRecord {
 export interface SpreadsheetData {
   id: string;
   date: string;
-  summary: SummaryRecord[];
+  cases: CasesRecord[];
+  regionCases: RegionCasesRecord[];
   tests: TestsRecord[];
+  regionTests: RegionTestsRecord[];
   pandemic: PandemicRecord[];
-  regionPandemic: PandemicRegionRecord[];
+  regionPandemic: RegionPandemicRecord[];
   population: PopulationRecord[];
 }

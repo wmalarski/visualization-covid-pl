@@ -16,7 +16,7 @@ def get_region_summary_df(xls: pd.ExcelFile) -> pd.DataFrame:
     return pd.DataFrame({
         "cases": extract_region_rows(region_summary_original, from_row=6, to_row=23),
         "deaths": extract_region_rows(region_summary_original, from_row=49, to_row=66),
-        "recovers": extract_region_rows(region_summary_original, from_row=89, to_row=106)
+        "recovers": extract_region_rows(region_summary_original, from_row=89, to_row=106),
     }).reset_index().rename(columns={6: "date", "level_1": "region"})
 
 
@@ -80,11 +80,44 @@ def export_to_database(excel_path: Path, db: Database) -> None:
 
     dict_data = {
         "date": datetime.datetime.utcnow(),
-        "summary": get_region_summary_df(xls).to_dict("records"),
-        "tests": get_tests_df(xls).to_dict("records"),
-        "regionTests": get_region_tests_df(xls).to_dict("records"),
-        "pandemic": get_pandemic_df(xls).to_dict("records"),
-        "regionPandemic": get_region_pandemic_df(xls).to_dict("records"),
+        "summary": get_region_summary_df(xls).rename(columns={
+            "cases": "c",
+            "deaths": "e",
+            "recovers": "v",
+            "date": "d",
+            "region": "r"
+        }).to_dict("records"),
+        "tests": get_tests_df(xls).rename(columns={
+            "sumPeopleTested": "t",
+            "sumTests": "e",
+            "ordersPoz": "z",
+            "sumPositive": "p",
+            "sumNegativeAgainPositive": "n",
+            "date": "d",
+        }).to_dict("records"),
+        "regionTests": get_region_tests_df(xls).rename(columns={
+            "sumTests": "t",
+            "sumPositive": "p",
+            "date": "d",
+            "region": "r"
+        }).to_dict("records"),
+        "pandemic": get_pandemic_df(xls).rename(columns={
+            "hospitalized": "h",
+            "bedsCount": "b",
+            "respiratorsUsed": "u",
+            "respiratorsAll": "a",
+            "quarantine": "q",
+            "inspection": "i",
+            "date": "d",
+        }).to_dict("records"),
+        "regionPandemic": get_region_pandemic_df(xls).rename(columns={
+            "hospitalized": "h",
+            "bedsCount": "b",
+            "respiratorsUsed": "u",
+            "respiratorsAll": "a",
+            "date": "d",
+            "region": "r"
+        }).to_dict("records"),
         "population": get_population_df(xls).to_dict("records"),
     }
     reports_collection = db.reports
