@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid";
 import { VisualizationTypes } from "../visualization/types";
 import {
   UpdateViewArgument,
@@ -10,7 +11,7 @@ const initialState: WorkspaceState = {
   views: [
     {
       layout: {
-        i: "summary",
+        i: uuidv4(),
         h: 5,
         w: 5,
         x: 0,
@@ -27,7 +28,7 @@ const initialState: WorkspaceState = {
     },
     {
       layout: {
-        i: "deaths",
+        i: uuidv4(),
         h: 5,
         w: 5,
         x: 5,
@@ -44,7 +45,7 @@ const initialState: WorkspaceState = {
     },
     {
       layout: {
-        i: "regions",
+        i: uuidv4(),
         h: 5,
         w: 5,
         x: 5,
