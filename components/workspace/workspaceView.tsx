@@ -3,6 +3,7 @@ import { VisualizationTypes } from "../../utils/visualization/types";
 import { WorkspaceViewProps } from "../../utils/workspace/types";
 import RegionChart from "../visualization/regionChart";
 import SummaryChart from "../visualization/summaryChart";
+import SummaryTable from "../visualization/summaryTable";
 
 export default function WorkspaceView(
   props: WorkspaceViewProps,
@@ -14,6 +15,8 @@ export default function WorkspaceView(
       return <RegionChart {...props} />;
     case VisualizationTypes.SUMMARY_CHART:
       return <SummaryChart {...props} />;
+    case VisualizationTypes.SUMMARY_TABLE:
+      return <SummaryTable {...props} />;
     default:
       return null;
   }

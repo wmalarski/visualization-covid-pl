@@ -1,11 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { VisualizationTypes } from "../visualization/types";
-import {
-  UpdateViewArgument,
-  WorkspaceState,
-  WorkspaceViewProps,
-} from "./types";
+import { UpdateViewArgument, WorkspaceState, WorkspaceViewArgs } from "./types";
 
 const initialState: WorkspaceState = {
   views: [
@@ -69,10 +65,28 @@ const workspaceReducer = createSlice({
   reducers: {
     addView(
       state: WorkspaceState,
-      action: PayloadAction<WorkspaceViewProps>,
+      action: PayloadAction<WorkspaceViewArgs>,
     ): WorkspaceState {
       const { payload } = action;
-      return { ...state, views: [...state.views, payload] };
+      const { layout = {} } = payload;
+      return {
+        ...state,
+        views: [
+          ...state.views,
+          {
+            ...payload,
+            layout: {
+              h: 6,
+              i: uuidv4(),
+              w: 6,
+              x: 0,
+              y: 0,
+              static: true,
+              ...layout,
+            },
+          },
+        ],
+      };
     },
     updateView(
       state: WorkspaceState,

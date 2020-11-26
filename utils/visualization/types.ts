@@ -1,6 +1,7 @@
 export enum VisualizationTypes {
   SUMMARY_CHART = "SUMMARY_CHART",
   REGION_CHART = "REGION_CHART",
+  SUMMARY_TABLE = "SUMMARY_TABLE",
 }
 
 export interface SummaryChartAttributes {
@@ -14,6 +15,12 @@ export interface RegionChartAttributes {
   regions?: string[];
 }
 
+export interface SummaryTableAttributes {
+  type: VisualizationTypes.SUMMARY_TABLE;
+  regions?: string[];
+}
+
 export type VisualizationAttributes =
   | SummaryChartAttributes
-  | RegionChartAttributes;
+  | RegionChartAttributes
+  | SummaryTableAttributes;

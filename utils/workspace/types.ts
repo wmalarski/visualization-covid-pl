@@ -12,6 +12,11 @@ export interface WorkspaceViewProps {
   config: WorkspaceViewConfig;
 }
 
+export interface WorkspaceViewArgs {
+  layout?: Partial<GridLayout.Layout>;
+  config: WorkspaceViewConfig;
+}
+
 export interface WorkspaceState {
   views: WorkspaceViewProps[];
 }
