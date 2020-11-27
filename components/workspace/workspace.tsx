@@ -16,7 +16,13 @@ import WorkspaceView from "./workspaceView";
 
 const ReactGridLayout = WidthProvider(RGL);
 
-export default function Workspace(): JSX.Element {
+export interface WorkspaceProps {
+  rowHeight?: number;
+  cols?: number;
+}
+
+export default function Workspace(props: WorkspaceProps): JSX.Element {
+  const { rowHeight = 50, cols = 10 } = props;
   const dispatch = useRootDispatch();
   const views = useSelector(workspaceViewsSelector);
   const layout = useMemo(() => views.map(view => view.layout), [views]);
@@ -24,8 +30,6 @@ export default function Workspace(): JSX.Element {
   const [isSummaryTableOpen, setIsSummaryTableOpen] = useState(false);
   const [isRegionChartOpen, setIsRegionChartOpen] = useState(false);
   const [isSummaryChartOpen, setIsSummaryChartOpen] = useState(false);
-  // const metadata = useMetadata();
-  // console.log(metadata.spreadsheetData);
 
   return (
     <Layout
@@ -55,8 +59,8 @@ export default function Workspace(): JSX.Element {
       <ReactGridLayout
         className="layout"
         layout={layout}
-        cols={12}
-        rowHeight={100}
+        cols={cols}
+        rowHeight={rowHeight}
         onLayoutChange={layouts =>
           dispatch(
             updateViews(layouts.map(layout => ({ key: layout.i, layout }))),

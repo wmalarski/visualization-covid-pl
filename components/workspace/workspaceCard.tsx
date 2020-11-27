@@ -5,7 +5,9 @@ import CardHeader from "@material-ui/core/CardHeader";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
+import isFunction from "lodash/isFunction";
 import React from "react";
+import { SizeMe, SizeMeProps } from "react-sizeme";
 import { useRootDispatch } from "../../utils/store";
 import { deleteView, updateView } from "../../utils/workspace/slice";
 import { WorkspaceViewProps } from "../../utils/workspace/types";
@@ -15,15 +17,17 @@ const useStyles = makeStyles(() => ({
     height: "100%",
     display: "flex",
     flexDirection: "column",
+    flexWrap: "nowrap",
   },
   question: {
     overflow: "auto",
     maxHeight: "100%",
+    flexGrow: 1,
   },
 }));
 
 export interface WorkspaceCardProps {
-  children: JSX.Element | JSX.Element[] | null;
+  children: ((size: SizeMeProps) => JSX.Element) | JSX.Element;
   actions?: JSX.Element | JSX.Element[] | null;
   toolbar?: JSX.Element | JSX.Element[] | null;
 }
@@ -70,9 +74,15 @@ export default function WorkspaceCard(
         subheader={subheader}
       />
       <div>{toolbar}</div>
-      <div className={classes.question}>
-        <CardContent>{children}</CardContent>
-      </div>
+      <SizeMe monitorHeight>
+        {({ size }) => (
+          <div className={classes.question}>
+            <CardContent>
+              {isFunction(children) ? children({ size }) : children}
+            </CardContent>
+          </div>
+        )}
+      </SizeMe>
     </Card>
   );
 }
