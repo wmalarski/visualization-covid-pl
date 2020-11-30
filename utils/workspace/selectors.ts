@@ -1,7 +1,16 @@
-import { WorkspaceState, WorkspaceViewProps } from "./types";
+import { createSelector } from "@reduxjs/toolkit";
+import { RootState } from "../store";
+import { WorkspaceState } from "./types";
 
-export function workspaceViewsSelector(
-  state: WorkspaceState,
-): WorkspaceViewProps[] {
-  return state.views;
-}
+export const workspaceSelector = (state: RootState): WorkspaceState =>
+  state.workspace;
+
+export const workspaceViewsSelector = createSelector(
+  workspaceSelector,
+  state => state.views,
+);
+
+export const workspaceLayoutsSelector = createSelector(
+  workspaceViewsSelector,
+  views => views.map(view => view.layout),
+);

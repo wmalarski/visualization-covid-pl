@@ -24,3 +24,15 @@ export type VisualizationAttributes =
   | SummaryChartAttributes
   | RegionChartAttributes
   | SummaryTableAttributes;
+
+export interface VisualizationTimeRange {
+  fromDate: string;
+  toDate: string;
+}
+
+export interface VisualizationState {
+  regions?: string[];
+  timeRange?: VisualizationTimeRange;
+  selectedRegions: string[];
+  selectedDates: string[];
+}

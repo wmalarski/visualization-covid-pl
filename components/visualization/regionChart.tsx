@@ -1,4 +1,5 @@
-import { ResponsiveLine } from "@nivo/line";
+import { ResponsiveLineCanvas } from "@nivo/line";
+import groupBy from "lodash/groupBy";
 import React from "react";
 import useMetadata from "../../utils/common/useMetadata";
 import { WorkspaceViewProps } from "../../utils/workspace/types";
@@ -10,32 +11,38 @@ export default function RegionChart(
   const magicPadding = 40;
 
   const { spreadsheetData } = useMetadata();
-  // console.log(spreadsheetData);
-
-  // spreadsheetData?.regionCases.map(cases => )
-  const data = [
-    {
-      id: "sss",
-      data: [
-        { x: 10, y: 20 },
-        { x: 15, y: 25 },
-      ],
-    },
-    {
-      id: "sasa",
-      data: [
-        { x: 1, y: -20 },
-        { x: 5, y: 35 },
-        { x: 10, y: 30 },
-      ],
-    },
-  ];
+  const groups = groupBy(spreadsheetData?.regionCases, "region");
+  const regions = Object.entries(groups).map(([region, records]) => ({
+    id: region,
+    data: records.map(record => ({ x: record.date, y: record.cases })),
+  }));
+  // console.log(groups, regions);
 
   return (
     <WorkspaceCard {...props}>
       {({ size }) => (
         <div style={{ height: (size.height ?? 100) - magicPadding }}>
-          <ResponsiveLine data={data} />
+          <ResponsiveLineCanvas
+            data={regions}
+            margin={{
+              bottom: 100,
+              left: 50,
+            }}
+            lineWidth={0}
+            enableGridX={false}
+            pointSize={1}
+            xScale={{
+              type: "time",
+              format: "%Y-%m-%dT%H:%M:%S.%LZ",
+              precision: "day",
+            }}
+            xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
+            axisBottom={{
+              legend: "Date",
+              tickRotation: 90,
+              format: "%b %d",
+            }}
+          />
         </div>
       )}
     </WorkspaceCard>

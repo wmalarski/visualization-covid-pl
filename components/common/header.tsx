@@ -24,18 +24,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   offset: theme.mixins.toolbar,
   appBar: {
+    backgroundColor: theme.palette.primary.main,
     zIndex: theme.zIndex.drawer + 1,
   },
 }));
 
 export interface HeaderProps {
+  right?: JSX.Element;
   siteTitle?: string;
 }
 
 export default function Header(
   props: PropsWithChildren<HeaderProps>,
 ): JSX.Element {
-  const { siteTitle = "Covid Visualization", children } = props;
+  const { siteTitle = "Covid Visualization", right, children } = props;
   const classes = useStyles();
 
   const { githubLink } = useMetadata();
@@ -53,6 +55,7 @@ export default function Header(
           </Typography>
           {children}
           <div className={classes.grow} />
+          {right}
           <IconButton aria-label="github" target="_blank" href={githubLink}>
             <GitHubIcon />
           </IconButton>
