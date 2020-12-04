@@ -4,10 +4,8 @@ import Grid from "@material-ui/core/Grid/Grid";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
-import Paper from "@material-ui/core/Paper/Paper";
 import Select from "@material-ui/core/Select/Select";
 import TextField from "@material-ui/core/TextField/TextField";
-import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
 import React, { useCallback, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -21,14 +19,13 @@ import {
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
-    marginTop: theme.spacing(1),
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    margin: theme.spacing(1),
     padding: theme.spacing(1),
   },
   form: {
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
   },
   chips: {
     display: "flex",
@@ -45,15 +42,7 @@ type ControllerFormType = {
   endDate: Date;
 };
 
-export interface VisualizationControllerProps {
-  onCloseClicked: () => void;
-}
-
-export default function VisualizationController(
-  props: VisualizationControllerProps,
-): JSX.Element | null {
-  const { onCloseClicked } = props;
-
+export default function VisualizationController(): JSX.Element | null {
   const classes = useStyles();
 
   const dispatch = useRootDispatch();
@@ -82,10 +71,10 @@ export default function VisualizationController(
   );
 
   return (
-    <Paper elevation={3} className={classes.paper}>
+    <div className={classes.paper}>
       <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
         <Grid container alignItems="center" alignContent="center" spacing={1}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Typography variant="caption" color="textSecondary">
               Regions
             </Typography>
@@ -119,7 +108,7 @@ export default function VisualizationController(
               }
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={6}>
             <TextField
               inputRef={register}
               name="startDate"
@@ -131,7 +120,7 @@ export default function VisualizationController(
               }}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={6}>
             <TextField
               inputRef={register}
               name="endDate"
@@ -144,15 +133,12 @@ export default function VisualizationController(
             />
           </Grid>
         </Grid>
-        <div className={classes.form}>
-          <IconButton type="submit" size="small">
+        <div>
+          <IconButton type="submit">
             <SearchIcon />
-          </IconButton>
-          <IconButton size="small" onClick={onCloseClicked}>
-            <CloseIcon />
           </IconButton>
         </div>
       </form>
-    </Paper>
+    </div>
   );
 }

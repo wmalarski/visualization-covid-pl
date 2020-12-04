@@ -36,3 +36,8 @@ export interface VisualizationState {
   selectedRegions: string[];
   selectedDates: string[];
 }
+
+export interface VisualizationDialogProps {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
