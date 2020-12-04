@@ -1,4 +1,13 @@
 import isNil from "lodash/isNil";
+import last from "lodash/last";
+import {
+  PandemicInput,
+  RegionPandemicInput,
+  RegionTestsInput,
+  SpreadsheetInput,
+  SummaryInput,
+  TestsInput,
+} from "./input";
 import {
   CasesRecord,
   PandemicRecord,
@@ -6,28 +15,27 @@ import {
   RegionCasesRecord,
   RegionPandemicRecord,
   RegionTestsRecord,
+  SpreadsheetData,
   TestsRecord,
 } from "./types";
 
 export function mapCasesRecord(
-  entry: any,
+  entry: SummaryInput[],
   populations: PopulationRecord[],
 ): CasesRecord[] {
   return [];
 }
 
 export function mapRegionCasesRecord(
-  entry: any,
+  entry: SummaryInput,
   previous: RegionCasesRecord | undefined,
   populations: PopulationRecord[],
 ): RegionCasesRecord | null {
-  const {
-    r: region = null,
-    c: cases = null,
-    d: deaths = null,
-    v: recovers = null,
-    d: date = null,
-  } = entry;
+  const { r: region, c, e, v, d: date } = entry;
+  const cases = c ?? 0;
+  const deaths = e ?? 0;
+  const recovers = v ?? 0;
+
   const population = populations.find(p => p.region == region);
   const areDefined = [population, date, cases, deaths, recovers].some(isNil);
   if (!population || areDefined) return null;
@@ -35,14 +43,14 @@ export function mapRegionCasesRecord(
   const sumCases = (previous?.sumCases ?? 0) + cases;
 
   return {
-    date,
+    date: Date.parse(date),
     ...population,
     cases,
     sumCases,
     deaths,
     sumDeaths: (previous?.deaths ?? 0) + deaths,
     recovers,
-    sumRecovers: previous?.recovers + recovers,
+    sumRecovers: (previous?.recovers ?? 0) + recovers,
     activeCases,
     activeChange: activeCases - (previous?.activeCases ?? 0),
     increaseCases: sumCases / (previous?.sumCases ?? 1) - 1,
@@ -52,7 +60,7 @@ export function mapRegionCasesRecord(
 }
 
 export function mapTestsRecord(
-  entry: any,
+  entry: TestsInput,
   previous: TestsRecord | undefined,
 ): TestsRecord | null {
   const {
@@ -61,11 +69,11 @@ export function mapTestsRecord(
     z: ordersPoz = null,
     p: sumPositive = null,
     n: sumNegativeAgainPositive = null,
-    d: date = null,
+    d: date,
   } = entry;
 
   return {
-    date,
+    date: Date.parse(date),
     sumPeopleTested,
     sumTests,
     ordersPoz,
@@ -75,19 +83,19 @@ export function mapTestsRecord(
 }
 
 export function mapTestsRegionRecord(
-  entry: any,
+  entry: RegionTestsInput,
   previous: RegionTestsRecord | undefined,
   populations: PopulationRecord[],
 ): RegionTestsRecord | null {
   const {
     t: sumTests = null,
     p: sumPositive = null,
-    d: date = null,
-    r: region = null,
+    d: date,
+    r: region,
   } = entry;
 
   return {
-    date,
+    date: Date.parse(date),
     population: 0,
     region,
     sumTests,
@@ -96,7 +104,7 @@ export function mapTestsRegionRecord(
 }
 
 export function mapPandemicRecord(
-  entry: any,
+  entry: PandemicInput,
   previous: PandemicRecord | undefined,
 ): PandemicRecord | null {
   const {
@@ -106,11 +114,11 @@ export function mapPandemicRecord(
     a: respiratorsAll = null,
     q: quarantine = null,
     i: inspection = null,
-    d: date = null,
+    d: date,
   } = entry;
 
   return {
-    date,
+    date: Date.parse(date),
     hospitalized,
     bedsCount,
     respiratorsUsed,
@@ -121,7 +129,7 @@ export function mapPandemicRecord(
 }
 
 export function mapPandemicRegionRecord(
-  entry: any,
+  entry: RegionPandemicInput,
   previous: RegionPandemicRecord | undefined,
   populations: PopulationRecord[],
 ): RegionPandemicRecord | null {
@@ -130,17 +138,63 @@ export function mapPandemicRegionRecord(
     b: bedsCount = null,
     u: respiratorsUsed = null,
     a: respiratorsAll = null,
-    r: region = null,
-    d: date = null,
+    r: region,
+    d: date,
   } = entry;
 
   return {
-    date,
+    date: Date.parse(date),
     hospitalized,
     bedsCount,
     respiratorsUsed,
     respiratorsAll,
     region,
     population: 0,
+  };
+}
+
+function recordReducer<T>(
+  entries: any,
+  mapper: (prev: T[], curr: any) => T | null,
+): T[] {
+  return (entries as any[]).reduce<T[]>((prev, curr) => {
+    const record = mapper(prev, curr);
+    return record ? [...prev, record] : prev;
+  }, []);
+}
+
+export default function getData(input: SpreadsheetInput): SpreadsheetData {
+  const {
+    _id,
+    date,
+    pandemic,
+    population,
+    regionPandemic,
+    regionTests,
+    summary,
+    tests,
+  } = input;
+
+  return {
+    id: _id,
+    date: date,
+    population,
+    cases: mapCasesRecord(summary, population),
+    regionCases: recordReducer<RegionCasesRecord>(summary, (prev, curr) =>
+      mapRegionCasesRecord(curr, last(prev), population),
+    ),
+    tests: recordReducer<TestsRecord>(tests, (prev, curr) =>
+      mapTestsRecord(curr, last(prev)),
+    ),
+    regionTests: recordReducer<RegionTestsRecord>(regionTests, (prev, curr) =>
+      mapTestsRegionRecord(curr, last(prev), population),
+    ),
+    pandemic: recordReducer<PandemicRecord>(pandemic, (prev, curr) =>
+      mapPandemicRecord(curr, last(prev)),
+    ),
+    regionPandemic: recordReducer<RegionPandemicRecord>(
+      regionPandemic,
+      (prev, curr) => mapPandemicRegionRecord(curr, last(prev), population),
+    ),
   };
 }

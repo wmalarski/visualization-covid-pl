@@ -3,12 +3,12 @@ import { SpreadsheetData } from "./types";
 
 export interface MetadataContextValue {
   githubLink: string;
-  spreadsheetData: SpreadsheetData | null;
+  data: SpreadsheetData | null;
 }
 
 const MetadataContext = createContext<MetadataContextValue>({
   githubLink: "",
-  spreadsheetData: null,
+  data: null,
 });
 
 export default MetadataContext;

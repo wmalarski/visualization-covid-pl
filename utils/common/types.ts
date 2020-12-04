@@ -1,5 +1,5 @@
 export interface RegionCasesRecord {
-  date: string;
+  date: number;
   region: string;
   population: number;
   cases: number;
@@ -16,7 +16,7 @@ export interface RegionCasesRecord {
 }
 
 export interface CasesRecord {
-  date: string;
+  date: number;
   cases: number;
   sumCases: number;
   deaths: number;
@@ -31,7 +31,7 @@ export interface CasesRecord {
 }
 
 export interface TestsRecord {
-  date: string;
+  date: number;
   sumPeopleTested: number | null;
   sumTests: number | null;
   ordersPoz: number | null;
@@ -40,7 +40,7 @@ export interface TestsRecord {
 }
 
 export interface RegionTestsRecord {
-  date: string;
+  date: number;
   region: string;
   population: number;
   sumTests: number | null;
@@ -48,7 +48,7 @@ export interface RegionTestsRecord {
 }
 
 export interface PandemicRecord {
-  date: string;
+  date: number;
   hospitalized: number | null;
   bedsCount: number | null;
   respiratorsUsed: number | null;
@@ -58,7 +58,7 @@ export interface PandemicRecord {
 }
 
 export interface RegionPandemicRecord {
-  date: string;
+  date: number;
   region: string;
   population: number;
   hospitalized: number | null;

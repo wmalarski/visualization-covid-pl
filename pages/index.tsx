@@ -3,18 +3,21 @@ import React from "react";
 import { Provider } from "react-redux";
 import MetadataProvider from "../components/common/metadataProvider";
 import Workspace from "../components/workspace/workspace";
-import getMetadata from "../utils/common/getMetadata";
-import { MetadataContextValue } from "../utils/common/metadataContext";
+import getData from "../utils/common/getData";
+import getInput from "../utils/common/getInput";
+import { SpreadsheetInput } from "../utils/common/input";
 import store from "../utils/store";
 export interface HomeProps {
-  metadata: MetadataContextValue;
+  githubLink: string;
+  input: SpreadsheetInput;
 }
 
 export default function Home(props: HomeProps): JSX.Element {
-  const { metadata } = props;
+  const { input, ...other } = props;
+  const data = getData(input);
 
   return (
-    <MetadataProvider {...metadata}>
+    <MetadataProvider data={data} {...other}>
       <Provider store={store}>
         <Workspace />
       </Provider>
@@ -22,10 +25,11 @@ export default function Home(props: HomeProps): JSX.Element {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   return {
     props: {
-      metadata: await getMetadata(),
+      githubLink: process.env.GITHUB_LINK ?? "",
+      input: await getInput(),
     },
   };
 };

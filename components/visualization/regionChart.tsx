@@ -1,4 +1,3 @@
-import { ResponsiveLineCanvas } from "@nivo/line";
 import groupBy from "lodash/groupBy";
 import React from "react";
 import useMetadata from "../../utils/common/useMetadata";
@@ -10,8 +9,8 @@ export default function RegionChart(
 ): JSX.Element | null {
   const magicPadding = 40;
 
-  const { spreadsheetData } = useMetadata();
-  const groups = groupBy(spreadsheetData?.regionCases, "region");
+  const { data } = useMetadata();
+  const groups = groupBy(data?.regionCases, "region");
   const regions = Object.entries(groups).map(([region, records]) => ({
     id: region,
     data: records.map(record => ({ x: record.date, y: record.cases })),
@@ -22,7 +21,7 @@ export default function RegionChart(
     <WorkspaceCard {...props}>
       {({ size }) => (
         <div style={{ height: (size.height ?? 100) - magicPadding }}>
-          <ResponsiveLineCanvas
+          {/* <ResponsiveLineCanvas
             data={regions}
             margin={{
               bottom: 100,
@@ -42,7 +41,7 @@ export default function RegionChart(
               tickRotation: 90,
               format: "%b %d",
             }}
-          />
+          /> */}
         </div>
       )}
     </WorkspaceCard>

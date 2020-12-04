@@ -62,11 +62,10 @@ export default function VisualizationController(
 
   console.log("VisualizationController", regions, range);
 
-  const { spreadsheetData } = useMetadata();
-  const allRegions = useMemo(
-    () => spreadsheetData?.population.map(r => r.region) ?? [],
-    [spreadsheetData?.population],
-  );
+  const { data } = useMetadata();
+  const allRegions = useMemo(() => data?.population.map(r => r.region) ?? [], [
+    data?.population,
+  ]);
   // const defaultRange = useMemo();
 
   const { handleSubmit, register, control } = useForm<ControllerFormType>({
