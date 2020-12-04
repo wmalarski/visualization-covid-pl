@@ -7,7 +7,7 @@ import {
   SpreadsheetInput,
   SummaryInput,
   TestsInput,
-} from "./input";
+} from "../input";
 import {
   CasesRecord,
   PandemicRecord,
@@ -17,7 +17,7 @@ import {
   RegionTestsRecord,
   SpreadsheetData,
   TestsRecord,
-} from "./types";
+} from "../types";
 
 export function mapCasesRecord(
   entry: SummaryInput[],

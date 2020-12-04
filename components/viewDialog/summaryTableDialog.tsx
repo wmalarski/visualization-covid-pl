@@ -1,7 +1,7 @@
 import Dialog from "@material-ui/core/Dialog";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { useRootDispatch } from "../../utils/store";
+import { useRootDispatch } from "../../utils/common/store";
 import {
   VisualizationDialogProps,
   VisualizationTypes,

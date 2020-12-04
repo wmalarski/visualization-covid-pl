@@ -6,10 +6,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import CodeIcon from "@material-ui/icons/Code";
 import GitHubIcon from "@material-ui/icons/GitHub";
+import InfoIcon from "@material-ui/icons/Info";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import { makeStyles } from "@material-ui/styles";
 import Link from "next/link";
 import React, { PropsWithChildren } from "react";
-import useMetadata from "../../utils/common/useMetadata";
+import useMetadata from "../../utils/common/hooks/useMetadata";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -40,7 +42,7 @@ export default function Header(
   const { siteTitle = "Covid Visualization", right, children } = props;
   const classes = useStyles();
 
-  const { githubLink } = useMetadata();
+  const { githubLink, linkedInLink } = useMetadata();
 
   return (
     <>
@@ -56,9 +58,25 @@ export default function Header(
           {children}
           <div className={classes.grow} />
           {right}
-          <IconButton aria-label="github" target="_blank" href={githubLink}>
-            <GitHubIcon />
-          </IconButton>
+          <Link href="/about" passHref>
+            <IconButton aria-label="about">
+              <InfoIcon />
+            </IconButton>
+          </Link>
+          {linkedInLink && (
+            <IconButton
+              aria-label="linkedin"
+              target="_blank"
+              href={linkedInLink}
+            >
+              <LinkedInIcon />
+            </IconButton>
+          )}
+          {githubLink && (
+            <IconButton aria-label="github" target="_blank" href={githubLink}>
+              <GitHubIcon />
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
       <div className={classes.offset} />

@@ -1,6 +1,6 @@
 import groupBy from "lodash/groupBy";
 import React from "react";
-import useMetadata from "../../utils/common/useMetadata";
+import useMetadata from "../../utils/common/hooks/useMetadata";
 import { WorkspaceViewProps } from "../../utils/workspace/types";
 import WorkspaceCard from "../workspace/workspaceCard";
 

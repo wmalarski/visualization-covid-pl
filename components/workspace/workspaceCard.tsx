@@ -8,7 +8,7 @@ import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import isFunction from "lodash/isFunction";
 import React from "react";
 import { SizeMe, SizeMeProps } from "react-sizeme";
-import { useRootDispatch } from "../../utils/store";
+import { useRootDispatch } from "../../utils/common/store";
 import { deleteView, updateView } from "../../utils/workspace/slice";
 import { WorkspaceViewProps } from "../../utils/workspace/types";
 

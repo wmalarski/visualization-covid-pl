@@ -10,8 +10,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import React, { useCallback, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import useMetadata from "../../utils/common/useMetadata";
-import { useRootDispatch } from "../../utils/store";
+import useMetadata from "../../utils/common/hooks/useMetadata";
+import { useRootDispatch } from "../../utils/common/store";
 import {
   visualizationRegionsSelector,
   visualizationTimeRangeSelector,
