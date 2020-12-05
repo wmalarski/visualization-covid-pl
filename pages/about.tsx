@@ -1,8 +1,8 @@
 import { GetStaticProps } from "next";
 import React from "react";
-import Layout from "../components/common/layout";
-import MetadataProvider from "../components/common/metadataProvider";
-import { MetadataInput } from "../utils/common/metadataContext";
+import Layout from "../src/common/components/layout";
+import MetadataProvider from "../src/common/components/metadataProvider";
+import { MetadataInput } from "../src/common/metadataContext";
 export interface HomeProps {
   metadata: MetadataInput;
 }
