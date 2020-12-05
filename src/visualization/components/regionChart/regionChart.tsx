@@ -1,8 +1,9 @@
 import groupBy from "lodash/groupBy";
-import React from "react";
+import React, { useState } from "react";
 import useMetadata from "../../../common/hooks/useMetadata";
 import { WorkspaceViewProps } from "../../../workspace/types";
 import ViewCard from "../generics/viewCard";
+import RegionChartDialog from "./regionChartDialog";
 
 export default function RegionChart(
   props: WorkspaceViewProps,
@@ -16,12 +17,14 @@ export default function RegionChart(
     data: records.map(record => ({ x: record.date, y: record.cases })),
   }));
   // console.log(groups, regions);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   return (
-    <ViewCard {...props}>
-      {({ size }) => (
-        <div style={{ height: (size.height ?? 100) - magicPadding }}>
-          {/* <ResponsiveLineCanvas
+    <>
+      <ViewCard setIsEditOpen={setIsEditOpen} {...props}>
+        {({ size }) => (
+          <div style={{ height: (size.height ?? 100) - magicPadding }}>
+            {/* <ResponsiveLineCanvas
             data={regions}
             margin={{
               bottom: 100,
@@ -42,8 +45,14 @@ export default function RegionChart(
               format: "%b %d",
             }}
           /> */}
-        </div>
-      )}
-    </ViewCard>
+          </div>
+        )}
+      </ViewCard>
+      <RegionChartDialog
+        view={props}
+        isOpen={isEditOpen}
+        setIsOpen={setIsEditOpen}
+      />
+    </>
   );
 }

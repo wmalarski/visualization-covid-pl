@@ -2,19 +2,17 @@ import Dialog from "@material-ui/core/Dialog";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useRootDispatch } from "../../../common/store";
-import { addView } from "../../../workspace/slice";
-import { WorkspaceViewConfig } from "../../../workspace/types";
-import { VisualizationDialogProps, VisualizationTypes } from "../../types";
+import { addView, updateView } from "../../../workspace/slice";
+import { ViewDialogProps, WorkspaceViewConfig } from "../../../workspace/types";
+import { VisualizationTypes } from "../../types";
 import ViewForm from "../generics/viewForm";
 
-export default function RegionChartDialog(
-  props: VisualizationDialogProps,
-): JSX.Element {
-  const { isOpen, setIsOpen } = props;
+export default function RegionChartDialog(props: ViewDialogProps): JSX.Element {
+  const { isOpen, setIsOpen, view } = props;
   const handleClose = useCallback(() => setIsOpen(false), [setIsOpen]);
 
   const methods = useForm<WorkspaceViewConfig>({
-    defaultValues: {
+    defaultValues: view?.config || {
       visible: true,
       attributes: {
         type: VisualizationTypes.REGION_CHART,
@@ -29,9 +27,11 @@ export default function RegionChartDialog(
     (config: WorkspaceViewConfig): void => {
       handleClose();
       if (!config) return;
-      dispatch(addView({ config }));
+      dispatch(
+        view ? updateView({ key: view.layout.i, config }) : addView({ config }),
+      );
     },
-    [dispatch, handleClose],
+    [dispatch, handleClose, view],
   );
 
   return (
@@ -44,7 +44,11 @@ export default function RegionChartDialog(
         <input type="hidden" ref={register} name="visible" />
         <input type="hidden" ref={register} name="attributes.type" />
         <input type="hidden" ref={register} name="attributes.cumulative" />
-        <ViewForm methods={methods} onCancel={() => setIsOpen(false)} />
+        <ViewForm
+          isEdit={!!view}
+          methods={methods}
+          onCancel={() => setIsOpen(false)}
+        />
       </form>
     </Dialog>
   );

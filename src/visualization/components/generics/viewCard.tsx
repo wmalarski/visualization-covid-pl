@@ -5,7 +5,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import IconButton from "@material-ui/core/IconButton";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import isFunction from "lodash/isFunction";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { SizeMe, SizeMeProps } from "react-sizeme";
 import { useRootDispatch } from "../../../common/store";
 import { updateView } from "../../../workspace/slice";
@@ -30,6 +30,7 @@ export interface ViewCardProps {
   children: ((size: SizeMeProps) => JSX.Element) | JSX.Element;
   actions?: JSX.Element | JSX.Element[] | null;
   toolbar?: JSX.Element | JSX.Element[] | null;
+  setIsEditOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ViewCard(
@@ -37,7 +38,14 @@ export default function ViewCard(
 ): JSX.Element | null {
   const classes = useStyles();
 
-  const { layout, config: view, children, actions, toolbar } = props;
+  const {
+    layout,
+    config: view,
+    children,
+    actions,
+    toolbar,
+    setIsEditOpen,
+  } = props;
   const { title, subheader } = view;
   const { i: key, static: isStatic } = layout;
 
@@ -62,7 +70,11 @@ export default function ViewCard(
             >
               <DragIndicatorIcon color={isStatic ? "disabled" : "primary"} />
             </IconButton>
-            <ViewCardActions config={view} layout={layout} />
+            <ViewCardActions
+              config={view}
+              layout={layout}
+              setIsEditOpen={setIsEditOpen}
+            />
           </>
         }
         title={title}

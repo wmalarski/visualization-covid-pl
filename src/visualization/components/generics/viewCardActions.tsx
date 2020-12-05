@@ -9,7 +9,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import MinimizeIcon from "@material-ui/icons/Minimize";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { useRootDispatch } from "../../../common/store";
 import {
   copyView,
@@ -18,10 +18,14 @@ import {
 } from "../../../workspace/slice";
 import { WorkspaceViewProps } from "../../../workspace/types";
 
+export interface ViewCardActionsProps {
+  setIsEditOpen: Dispatch<SetStateAction<boolean>>;
+}
+
 export default function ViewCardActions(
-  props: WorkspaceViewProps,
+  props: WorkspaceViewProps & ViewCardActionsProps,
 ): JSX.Element {
-  const { layout } = props;
+  const { layout, setIsEditOpen } = props;
   const { i: key } = layout;
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -63,7 +67,12 @@ export default function ViewCardActions(
           </ListItemIcon>
           <ListItemText primary="Copy" />
         </MenuItem>
-        <MenuItem onClick={() => dispatch(deleteView(key))}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            setIsEditOpen(true);
+          }}
+        >
           <ListItemIcon>
             <EditIcon />
           </ListItemIcon>

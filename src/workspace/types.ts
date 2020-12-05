@@ -27,3 +27,9 @@ export interface UpdateViewArgument {
   layout?: Partial<GridLayout.Layout>;
   config?: Partial<WorkspaceViewConfig>;
 }
+
+export interface ViewDialogProps {
+  view?: WorkspaceViewProps;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}

@@ -1,4 +1,4 @@
-Visualization Covid Statistics
+# Visualization Covid Statistics
 
 Work in progress.
 

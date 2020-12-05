@@ -11,6 +11,7 @@ import { UseFormMethods } from "react-hook-form";
 import { WorkspaceViewConfig } from "../../../workspace/types";
 
 export interface ViewFormProps {
+  isEdit: boolean;
   methods: UseFormMethods<WorkspaceViewConfig>;
   onCancel: () => void;
 }
@@ -18,13 +19,15 @@ export interface ViewFormProps {
 export default function ViewForm(
   props: PropsWithChildren<ViewFormProps>,
 ): JSX.Element {
-  const { children, methods, onCancel } = props;
+  const { isEdit, children, methods, onCancel } = props;
   const { register } = methods;
 
   return (
     <>
       <DialogContent>
-        <DialogTitle id="form-dialog-title">Add View</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          {isEdit ? "Edit" : "Add"} View
+        </DialogTitle>
         <DialogContentText>
           To subscribe to this website, please enter your email address here. We
           will send updates occasionally.
@@ -54,7 +57,7 @@ export default function ViewForm(
           Cancel
         </Button>
         <Button startIcon={<AddIcon />} type="submit">
-          Add
+          {isEdit ? "Edit" : "Add"}
         </Button>
       </DialogActions>
     </>
