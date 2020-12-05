@@ -6,22 +6,22 @@ import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import Select from "@material-ui/core/Select/Select";
 import TextField from "@material-ui/core/TextField/TextField";
-import SearchIcon from "@material-ui/icons/Search";
-import React, { useCallback, useMemo } from "react";
-import { Controller, useForm } from "react-hook-form";
+import CloseIcon from "@material-ui/icons/Close";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import useMetadata from "../../common/hooks/useMetadata";
+import { useRootDispatch } from "../../common/store";
 import {
   visualizationRegionsSelector,
   visualizationTimeRangeSelector,
 } from "../../visualization/selectors";
+import { setRegions, setTimeRange } from "../../visualization/slice";
+import { getDefaultRange } from "../functions";
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
     margin: theme.spacing(1),
     padding: theme.spacing(1),
-  },
-  form: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -35,109 +35,131 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type ControllerFormType = {
-  regions: string[];
-  startDate: Date;
-  endDate: Date;
-};
-
 export default function ViewsController(): JSX.Element | null {
   const classes = useStyles();
 
-  // const dispatch = useRootDispatch();
+  const dispatch = useRootDispatch();
   const regions = useSelector(visualizationRegionsSelector);
   const range = useSelector(visualizationTimeRangeSelector);
-
-  console.log("VisualizationController", regions, range);
 
   const { data } = useMetadata();
   const allRegions = useMemo(() => data?.population.map(r => r.region) ?? [], [
     data?.population,
   ]);
-  // const defaultRange = useMemo();
-
-  const { handleSubmit, register, control } = useForm<ControllerFormType>({
-    defaultValues: {
-      regions: [],
-      endDate: new Date(),
-      startDate: new Date(),
-    },
-  });
-
-  const onSubmit = useCallback(
-    (data: ControllerFormType): void => console.log("onSubmit", data),
-    [],
-  );
+  const defaultRange = useMemo(() => getDefaultRange(data), [data]);
 
   return (
     <div className={classes.paper}>
-      <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-        <Grid container alignItems="center" alignContent="center" spacing={1}>
-          <Grid item xs={12}>
-            <Typography variant="caption" color="textSecondary">
-              Regions
-            </Typography>
-            <Controller
-              control={control}
-              name="regions"
-              as={
-                <Select
-                  multiple
-                  fullWidth
-                  renderValue={selected => (
-                    <div className={classes.chips}>
-                      {(selected as string[]).map(value => (
-                        <Chip
-                          key={value}
-                          label={value}
-                          className={classes.chip}
-                        />
-                      ))}
-                    </div>
-                  )}
-                  margin="none"
-                  // MenuProps={MenuProps}
-                >
-                  {allRegions.map(region => (
-                    <MenuItem key={region} value={region}>
-                      <ListItemText primary={region} />
-                    </MenuItem>
+      <Grid container alignItems="center" alignContent="center" spacing={1}>
+        <Grid item xs={11}>
+          <Typography variant="caption" color="textSecondary">
+            Regions
+          </Typography>
+          <Select
+            multiple
+            fullWidth
+            value={regions ?? []}
+            onChange={event =>
+              dispatch(setRegions(event.target.value as string[]))
+            }
+            renderValue={selected => {
+              const selectedRegions = selected as string[];
+              return (
+                <div className={classes.chips}>
+                  {selectedRegions.map(value => (
+                    <Chip key={value} label={value} className={classes.chip} />
                   ))}
-                </Select>
-              }
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              inputRef={register}
-              name="startDate"
-              label="From"
-              type="date"
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              inputRef={register}
-              name="endDate"
-              label="To"
-              type="date"
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
+                </div>
+              );
+            }}
+          >
+            {allRegions.map(region => (
+              <MenuItem key={region} value={region}>
+                <ListItemText primary={region} />
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
-        <div>
-          <IconButton type="submit">
-            <SearchIcon />
+        <Grid item xs={1}>
+          <IconButton
+            aria-label="delete"
+            size="small"
+            onClick={() => dispatch(setRegions([]))}
+          >
+            <CloseIcon fontSize="small" />
           </IconButton>
-        </div>
-      </form>
+        </Grid>
+        <Grid item xs={5}>
+          <TextField
+            name="startDate"
+            label="From"
+            type="date"
+            fullWidth
+            value={range?.fromDate ?? defaultRange.fromDate}
+            onChange={event =>
+              dispatch(
+                setTimeRange({
+                  fromDate: event.target.value,
+                  toDate: range?.toDate,
+                }),
+              )
+            }
+            InputLabelProps={{ shrink: true }}
+          />
+        </Grid>
+        <Grid item xs={1}>
+          <IconButton
+            aria-label="delete"
+            size="small"
+            onClick={() =>
+              dispatch(
+                setTimeRange({
+                  fromDate: defaultRange.fromDate,
+                  toDate: range?.toDate,
+                }),
+              )
+            }
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Grid>
+        <Grid item xs={5}>
+          <TextField
+            name="endDate"
+            label="To"
+            type="date"
+            fullWidth
+            value={range?.toDate ?? defaultRange.toDate}
+            onChange={event =>
+              dispatch(
+                setTimeRange({
+                  fromDate: range?.fromDate,
+                  toDate: event.target.value,
+                }),
+              )
+            }
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+        <Grid item xs={1}>
+          <IconButton
+            aria-label="delete"
+            size="small"
+            onClick={() =>
+              dispatch(
+                setTimeRange({
+                  fromDate: range?.fromDate,
+                  toDate: defaultRange.toDate,
+                }),
+              )
+            }
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Grid>
+      </Grid>
     </div>
   );
 }

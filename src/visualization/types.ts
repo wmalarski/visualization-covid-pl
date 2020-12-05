@@ -26,8 +26,8 @@ export type VisualizationAttributes =
   | SummaryTableAttributes;
 
 export interface VisualizationTimeRange {
-  fromDate: string;
-  toDate: string;
+  fromDate?: string;
+  toDate?: string;
 }
 
 export interface VisualizationState {
