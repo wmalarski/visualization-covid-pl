@@ -4,10 +4,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import useTheme from "@material-ui/core/styles/useTheme";
 import AddIcon from "@material-ui/icons/Add";
 import React, { useCallback, useState } from "react";
-import { VisualizationTypes } from "../../types";
-import RegionChartDialog from "../regionChart/regionChartDialog";
-import SummaryChartDialog from "../summaryChart/summaryChartDialog";
-import SummaryTableDialog from "../summaryTable/summaryTableDialog";
+import RegionChartDialog from "../../visualization/components/regionChart/regionChartDialog";
+import SummaryChartDialog from "../../visualization/components/summaryChart/summaryChartDialog";
+import SummaryTableDialog from "../../visualization/components/summaryTable/summaryTableDialog";
+import { VisualizationTypes } from "../../visualization/types";
 
 const visualizationDialogs = {
   [VisualizationTypes.REGION_CHART]: {

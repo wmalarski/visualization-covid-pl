@@ -10,12 +10,11 @@ import SearchIcon from "@material-ui/icons/Search";
 import React, { useCallback, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import useMetadata from "../../../common/hooks/useMetadata";
-import { useRootDispatch } from "../../../common/store";
+import useMetadata from "../../common/hooks/useMetadata";
 import {
   visualizationRegionsSelector,
   visualizationTimeRangeSelector,
-} from "../../selectors";
+} from "../../visualization/selectors";
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
@@ -45,7 +44,7 @@ type ControllerFormType = {
 export default function VisualizationController(): JSX.Element | null {
   const classes = useStyles();
 
-  const dispatch = useRootDispatch();
+  // const dispatch = useRootDispatch();
   const regions = useSelector(visualizationRegionsSelector);
   const range = useSelector(visualizationTimeRangeSelector);
 

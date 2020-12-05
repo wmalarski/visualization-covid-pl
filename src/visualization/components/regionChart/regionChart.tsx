@@ -1,8 +1,8 @@
 import groupBy from "lodash/groupBy";
 import React from "react";
 import useMetadata from "../../../common/hooks/useMetadata";
-import WorkspaceCard from "../../../workspace/components/workspaceCard";
 import { WorkspaceViewProps } from "../../../workspace/types";
+import ViewCard from "../generics/viewCard";
 
 export default function RegionChart(
   props: WorkspaceViewProps,
@@ -18,7 +18,7 @@ export default function RegionChart(
   // console.log(groups, regions);
 
   return (
-    <WorkspaceCard {...props}>
+    <ViewCard {...props}>
       {({ size }) => (
         <div style={{ height: (size.height ?? 100) - magicPadding }}>
           {/* <ResponsiveLineCanvas
@@ -44,6 +44,6 @@ export default function RegionChart(
           /> */}
         </div>
       )}
-    </WorkspaceCard>
+    </ViewCard>
   );
 }

@@ -3,14 +3,14 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import isFunction from "lodash/isFunction";
 import React from "react";
 import { SizeMe, SizeMeProps } from "react-sizeme";
-import { useRootDispatch } from "../../common/store";
-import { deleteView, updateView } from "../slice";
-import { WorkspaceViewProps } from "../types";
+import { useRootDispatch } from "../../../common/store";
+import { updateView } from "../../../workspace/slice";
+import { WorkspaceViewProps } from "../../../workspace/types";
+import ViewCardActions from "./viewCardActions";
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -26,14 +26,14 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export interface WorkspaceCardProps {
+export interface ViewCardProps {
   children: ((size: SizeMeProps) => JSX.Element) | JSX.Element;
   actions?: JSX.Element | JSX.Element[] | null;
   toolbar?: JSX.Element | JSX.Element[] | null;
 }
 
-export default function WorkspaceCard(
-  props: WorkspaceCardProps & WorkspaceViewProps,
+export default function ViewCard(
+  props: ViewCardProps & WorkspaceViewProps,
 ): JSX.Element | null {
   const classes = useStyles();
 
@@ -62,12 +62,7 @@ export default function WorkspaceCard(
             >
               <DragIndicatorIcon color={isStatic ? "disabled" : "primary"} />
             </IconButton>
-            <IconButton
-              aria-label="close"
-              onClick={() => dispatch(deleteView(key))}
-            >
-              <CloseIcon />
-            </IconButton>
+            <ViewCardActions config={view} layout={layout} />
           </>
         }
         title={title}

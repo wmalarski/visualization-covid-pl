@@ -4,6 +4,7 @@ import { VisualizationAttributes } from "../visualization/types";
 export interface WorkspaceViewConfig {
   title: string;
   subheader?: string;
+  visible: boolean;
   attributes: VisualizationAttributes;
 }
 

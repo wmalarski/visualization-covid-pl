@@ -5,10 +5,10 @@ import "../../../node_modules/react-grid-layout/css/styles.css";
 import "../../../node_modules/react-resizable/css/styles.css";
 import Layout from "../../common/components/layout";
 import { useRootDispatch } from "../../common/store";
-import ControllerPopover from "../../visualization/components/controller/controllerPopover";
-import DialogsMenu from "../../visualization/components/dialogs/dialogsMenu";
 import { workspaceLayoutsSelector, workspaceViewsSelector } from "../selectors";
 import { updateViews } from "../slice";
+import ControllerPopover from "./controllerPopover";
+import DialogsMenu from "./dialogsMenu";
 import WorkspaceView from "./workspaceView";
 
 const ReactGridLayout = WidthProvider(RGL);

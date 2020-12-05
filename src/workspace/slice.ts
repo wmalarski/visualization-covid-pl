@@ -16,6 +16,7 @@ const initialState: WorkspaceState = {
       },
       config: {
         title: "Summary",
+        visible: true,
         attributes: {
           type: VisualizationTypes.SUMMARY_CHART,
           cumulative: true,
@@ -33,6 +34,7 @@ const initialState: WorkspaceState = {
       },
       config: {
         title: "Deaths",
+        visible: true,
         attributes: {
           type: VisualizationTypes.SUMMARY_CHART,
           cumulative: false,
@@ -50,6 +52,7 @@ const initialState: WorkspaceState = {
       },
       config: {
         title: "Regions",
+        visible: true,
         attributes: {
           type: VisualizationTypes.REGION_CHART,
           cumulative: false,
@@ -117,6 +120,43 @@ const workspaceReducer = createSlice({
         views: state.views.filter(view => view.layout.i !== id),
       };
     },
+    toggleViewVisibility(
+      state: WorkspaceState,
+      action: PayloadAction<string>,
+    ): WorkspaceState {
+      const { payload: id } = action;
+      return {
+        ...state,
+        views: state.views.map(view =>
+          view.layout.i !== id
+            ? view
+            : {
+                ...view,
+                config: { ...view.config, visible: !view.config.visible },
+              },
+        ),
+      };
+    },
+    copyView(
+      state: WorkspaceState,
+      action: PayloadAction<string>,
+    ): WorkspaceState {
+      const { payload: id } = action;
+      return {
+        ...state,
+        views: state.views.flatMap(view =>
+          view.layout.i !== id
+            ? [view]
+            : [
+                view,
+                {
+                  ...view,
+                  layout: { ...view.layout, i: uuidv4() },
+                },
+              ],
+        ),
+      };
+    },
     updateViews(
       state: WorkspaceState,
       action: PayloadAction<UpdateViewArgument[]>,
@@ -141,9 +181,11 @@ const workspaceReducer = createSlice({
 
 export const {
   addView,
+  copyView,
   updateView,
   deleteView,
   updateViews,
+  toggleViewVisibility,
 } = workspaceReducer.actions;
 
 export default workspaceReducer.reducer;
