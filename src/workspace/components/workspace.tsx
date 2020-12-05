@@ -1,10 +1,10 @@
 import React from "react";
 import RGL, { WidthProvider } from "react-grid-layout";
 import { useSelector } from "react-redux";
+import "../../../node_modules/react-grid-layout/css/styles.css";
+import "../../../node_modules/react-resizable/css/styles.css";
 import Layout from "../../common/components/layout";
 import { useRootDispatch } from "../../common/store";
-import "../../node_modules/react-grid-layout/css/styles.css";
-import "../../node_modules/react-resizable/css/styles.css";
 import ControllerPopover from "../../visualization/components/controller/controllerPopover";
 import DialogsMenu from "../../visualization/components/dialogs/dialogsMenu";
 import { workspaceLayoutsSelector, workspaceViewsSelector } from "../selectors";

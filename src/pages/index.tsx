@@ -1,12 +1,12 @@
 import { GetStaticProps } from "next";
 import React from "react";
 import { Provider } from "react-redux";
-import MetadataProvider from "../src/common/components/metadataProvider";
-import getData from "../src/common/functions/getData";
-import getInput from "../src/common/functions/getInput";
-import { MetadataInput } from "../src/common/metadataContext";
-import store from "../src/common/store";
-import Workspace from "../src/workspace/components/workspace";
+import MetadataProvider from "../common/components/metadataProvider";
+import getData from "../common/functions/getData";
+import getInput from "../common/functions/getInput";
+import { MetadataInput } from "../common/metadataContext";
+import store from "../common/store";
+import Workspace from "../workspace/components/workspace";
 export interface HomeProps {
   metadata: MetadataInput;
 }

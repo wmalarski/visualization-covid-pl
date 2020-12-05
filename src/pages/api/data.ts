@@ -1,8 +1,8 @@
 import get from "lodash/get";
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
-import { SpreadsheetInput } from "../../src/common/types/input";
-import middleware from "../../src/middleware/database";
+import { SpreadsheetInput } from "../../common/types/input";
+import middleware from "../../middleware/database";
 
 const handler = nextConnect();
 

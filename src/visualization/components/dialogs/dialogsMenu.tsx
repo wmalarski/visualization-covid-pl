@@ -4,8 +4,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import useTheme from "@material-ui/core/styles/useTheme";
 import AddIcon from "@material-ui/icons/Add";
 import React, { useCallback, useState } from "react";
-import "../../node_modules/react-grid-layout/css/styles.css";
-import "../../node_modules/react-resizable/css/styles.css";
 import { VisualizationTypes } from "../../types";
 import RegionChartDialog from "../regionChart/regionChartDialog";
 import SummaryChartDialog from "../summaryChart/summaryChartDialog";

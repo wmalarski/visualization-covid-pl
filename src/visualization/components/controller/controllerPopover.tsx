@@ -3,8 +3,6 @@ import Popover from "@material-ui/core/Popover/Popover";
 import useTheme from "@material-ui/core/styles/useTheme";
 import SearchIcon from "@material-ui/icons/Search";
 import React, { useState } from "react";
-import "../../node_modules/react-grid-layout/css/styles.css";
-import "../../node_modules/react-resizable/css/styles.css";
 import VisualizationController from "./visualizationController";
 
 export default function ControllerPopover(): JSX.Element {
