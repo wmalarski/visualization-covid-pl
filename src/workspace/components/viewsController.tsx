@@ -41,7 +41,7 @@ type ControllerFormType = {
   endDate: Date;
 };
 
-export default function VisualizationController(): JSX.Element | null {
+export default function ViewsController(): JSX.Element | null {
   const classes = useStyles();
 
   // const dispatch = useRootDispatch();

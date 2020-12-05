@@ -61,26 +61,26 @@ export default function ViewCardActions(
           <ListItemIcon>
             <FileCopyIcon />
           </ListItemIcon>
-          <ListItemText>Copy</ListItemText>
+          <ListItemText primary="Copy" />
         </MenuItem>
         <MenuItem onClick={() => dispatch(deleteView(key))}>
           <ListItemIcon>
             <EditIcon />
           </ListItemIcon>
-          <ListItemText>Edit</ListItemText>
+          <ListItemText primary="Edit" />
         </MenuItem>
         <MenuItem onClick={() => dispatch(toggleViewVisibility(key))}>
           <ListItemIcon>
             <MinimizeIcon />
           </ListItemIcon>
-          <ListItemText>Hide</ListItemText>
+          <ListItemText primary="Hide" />
         </MenuItem>
         <Divider />
         <MenuItem onClick={() => dispatch(deleteView(key))}>
           <ListItemIcon>
             <CloseIcon />
           </ListItemIcon>
-          <ListItemText>Delete</ListItemText>
+          <ListItemText primary="Delete" />
         </MenuItem>
       </Menu>
     </>

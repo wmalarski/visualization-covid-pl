@@ -12,5 +12,5 @@ export const workspaceViewsSelector = createSelector(
 
 export const workspaceLayoutsSelector = createSelector(
   workspaceViewsSelector,
-  views => views.map(view => view.layout),
+  views => views.filter(view => view.config.visible).map(view => view.layout),
 );

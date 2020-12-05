@@ -3,6 +3,19 @@ import { v4 as uuidv4 } from "uuid";
 import { VisualizationTypes } from "../visualization/types";
 import { UpdateViewArgument, WorkspaceState, WorkspaceViewArgs } from "./types";
 
+const defaultLayoutProps = {
+  static: true,
+  minW: 3,
+  minH: 2,
+};
+
+const defaultShape = {
+  h: 5,
+  w: 5,
+  x: 0,
+  y: 0,
+};
+
 const initialState: WorkspaceState = {
   views: [
     {
@@ -12,7 +25,7 @@ const initialState: WorkspaceState = {
         w: 5,
         x: 0,
         y: 0,
-        static: true,
+        ...defaultLayoutProps,
       },
       config: {
         title: "Summary",
@@ -30,7 +43,7 @@ const initialState: WorkspaceState = {
         w: 5,
         x: 5,
         y: 0,
-        static: true,
+        ...defaultLayoutProps,
       },
       config: {
         title: "Deaths",
@@ -48,7 +61,7 @@ const initialState: WorkspaceState = {
         w: 5,
         x: 5,
         y: 0,
-        static: true,
+        ...defaultLayoutProps,
       },
       config: {
         title: "Regions",
@@ -84,7 +97,7 @@ const workspaceReducer = createSlice({
               w: 6,
               x: 0,
               y: 0,
-              static: true,
+              ...defaultLayoutProps,
               ...layout,
             },
           },

@@ -9,6 +9,7 @@ import { workspaceLayoutsSelector, workspaceViewsSelector } from "../selectors";
 import { updateViews } from "../slice";
 import ControllerPopover from "./controllerPopover";
 import DialogsMenu from "./dialogsMenu";
+import ViewsMenu from "./viewsMenu";
 import WorkspaceView from "./workspaceView";
 
 const ReactGridLayout = WidthProvider(RGL);
@@ -26,9 +27,10 @@ export default function Workspace(props: WorkspaceProps): JSX.Element {
 
   return (
     <Layout
-      rightHeader={
+      header={
         <>
           <DialogsMenu />
+          <ViewsMenu />
           <ControllerPopover />
         </>
       }
@@ -45,11 +47,13 @@ export default function Workspace(props: WorkspaceProps): JSX.Element {
             )
           }
         >
-          {views.map(view => (
-            <div key={view.layout.i}>
-              <WorkspaceView {...view} />
-            </div>
-          ))}
+          {views
+            .filter(view => view.config.visible)
+            .map(view => (
+              <div key={view.layout.i}>
+                <WorkspaceView {...view} />
+              </div>
+            ))}
         </ReactGridLayout>
       </>
     </Layout>

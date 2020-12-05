@@ -3,7 +3,7 @@ import Popover from "@material-ui/core/Popover/Popover";
 import useTheme from "@material-ui/core/styles/useTheme";
 import SearchIcon from "@material-ui/icons/Search";
 import React, { useState } from "react";
-import VisualizationController from "./visualizationController";
+import ViewsController from "./viewsController";
 
 export default function ControllerPopover(): JSX.Element {
   const theme = useTheme();
@@ -37,7 +37,7 @@ export default function ControllerPopover(): JSX.Element {
           horizontal: "right",
         }}
       >
-        <VisualizationController />
+        <ViewsController />
       </Popover>
     </>
   );
