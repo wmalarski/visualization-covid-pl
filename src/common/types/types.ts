@@ -1,7 +1,5 @@
-export interface RegionCasesRecord {
+export interface CasesRecord {
   date: number;
-  region: string;
-  population: number;
   cases: number;
   sumCases: number;
   deaths: number;
@@ -14,9 +12,10 @@ export interface RegionCasesRecord {
   increaseActive: number;
   casesPerMil: number;
 }
-
-export interface CasesRecord {
+export interface RegionCasesRecord {
   date: number;
+  region: string;
+  population: number;
   cases: number;
   sumCases: number;
   deaths: number;
@@ -82,4 +81,13 @@ export interface SpreadsheetData {
   pandemic: PandemicRecord[];
   regionPandemic: RegionPandemicRecord[];
   population: PopulationRecord[];
+}
+
+export enum RecordType {
+  CasesRecord = "CasesRecord",
+  RegionCasesRecord = "RegionCasesRecord",
+  TestsRecord = "TestsRecord",
+  RegionTestsRecord = "RegionTestsRecord",
+  PandemicRecord = "PandemicRecord",
+  RegionPandemicRecord = "RegionPandemicRecord",
 }

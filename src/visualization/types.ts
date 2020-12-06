@@ -1,3 +1,5 @@
+import { RecordType } from "../common/types/types";
+
 export enum VisualizationTypes {
   SUMMARY_CHART = "SUMMARY_CHART",
   REGION_CHART = "REGION_CHART",
@@ -17,7 +19,7 @@ export interface RegionChartAttributes {
 
 export interface SummaryTableAttributes {
   type: VisualizationTypes.SUMMARY_TABLE;
-  regions?: string[];
+  recordType?: RecordType;
 }
 
 export type VisualizationAttributes =

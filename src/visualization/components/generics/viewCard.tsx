@@ -30,6 +30,7 @@ export interface ViewCardProps {
   children: ((size: SizeMeProps) => JSX.Element) | JSX.Element;
   actions?: JSX.Element | JSX.Element[] | null;
   toolbar?: JSX.Element | JSX.Element[] | null;
+  isOverflowHidden?: boolean;
   setIsEditOpen: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -44,6 +45,7 @@ export default function ViewCard(
     children,
     actions,
     toolbar,
+    isOverflowHidden,
     setIsEditOpen,
   } = props;
   const { title, subheader } = view;
@@ -83,7 +85,10 @@ export default function ViewCard(
       <div>{toolbar}</div>
       <SizeMe monitorHeight>
         {({ size }) => (
-          <div className={classes.question}>
+          <div
+            style={{ overflow: isOverflowHidden ? "hidden" : "auto" }}
+            className={classes.question}
+          >
             <CardContent>
               {isFunction(children) ? children({ size }) : children}
             </CardContent>

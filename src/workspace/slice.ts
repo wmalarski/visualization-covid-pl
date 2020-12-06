@@ -9,13 +9,6 @@ const defaultLayoutProps = {
   minH: 2,
 };
 
-const defaultShape = {
-  h: 5,
-  w: 5,
-  x: 0,
-  y: 0,
-};
-
 const initialState: WorkspaceState = {
   views: [
     {
@@ -31,8 +24,7 @@ const initialState: WorkspaceState = {
         title: "Summary",
         visible: true,
         attributes: {
-          type: VisualizationTypes.SUMMARY_CHART,
-          cumulative: true,
+          type: VisualizationTypes.SUMMARY_TABLE,
         },
       },
     },

@@ -26,6 +26,7 @@
     "next": "^10.0.3",
     "next-connect": "^0.9.1",
     "react": "16.13.1",
+    "react-data-grid": "7.0.0-canary.30",
     "react-dom": "16.13.1",
     "react-grid-layout": "^1.2.0",
     "react-hook-form": "^6.12.2",
